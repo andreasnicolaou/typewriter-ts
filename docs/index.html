@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Live examples of typewriter-ts, a tiny dependency-free typewriter for JavaScript."
+    />
+    <title>typewriter-ts — tiny typewriter effects for JavaScript</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="theme-color" content="#101211" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>typewriter-ts</h1>
+      <p class="lede">
+        A tiny, dependency-free typewriter for the browser, Node, and anything else that holds text. Every example on
+        this page is running live.
+      </p>
+
+      <ul class="badges">
+        <li><b>~1.3 kB</b> gzipped</li>
+        <li><b>0</b> dependencies</li>
+        <li>ESM · CJS · UMD</li>
+        <li>TypeScript types</li>
+        <li>Unicode-safe</li>
+      </ul>
+
+      <div class="install">
+        <code id="install-cmd">npm install typewriter-ts</code>
+        <button class="secondary" type="button" data-copy="#install-cmd">Copy</button>
+        <a href="https://github.com/andreasnicolaou/typewriter-ts">GitHub</a>
+        <a href="https://www.npmjs.com/package/typewriter-ts">npm</a>
+      </div>
+
+      <div class="hero">
+        <output id="hero-out"></output>
+        <p class="visually-hidden">
+          A rotating headline reading: Small package. Big personality. Type into anything that holds text. No
+          dependencies, no framework.
+        </p>
+      </div>
+      <output id="status">Loading typewriter-ts…</output>
+
+      <section>
+        <div class="section-head">
+          <h2>What you can build with it</h2>
+          <p class="lede">Twelve things people actually ship, each with the code that produces it.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Human cadence</h3>
+                <p>
+                  Bars below show the real gap between keystrokes. A fixed delay is a perfect comb;
+                  <code>jitter</code> ruins it, which is the point.
+                </p>
+              </div>
+              <span class="tag">jitter</span>
+            </div>
+            <div class="stage">
+              <div class="cadence" aria-hidden="true">
+                <div>
+                  <span>jitter: 0 — every gap 90 ms</span>
+                  <output id="cadence-flat"></output>
+                  <div class="rhythm" id="rhythm-flat"></div>
+                </div>
+                <div>
+                  <span>jitter: 0.9 — gaps from 9 ms to 171 ms</span>
+                  <output id="cadence-human"></output>
+                  <div class="rhythm" id="rhythm-human"></div>
+                </div>
+              </div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-cadence">Copy</button>
+              <pre><code id="code-cadence">new Typewriter(el, { delay: 90, jitter: 0.9, cursor: '▋', loop: true })
+  .type('the quick brown fox')
+  .pause(1200)
+  .delete()
+  .pause(400)
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Unicode that never breaks</h3>
+                <p>Text advances by grapheme cluster, so families, flags and accents are never torn in half.</p>
+              </div>
+              <span class="tag">graphemes</span>
+            </div>
+            <div class="stage">
+              <div class="stage-text" id="unicode-out" aria-hidden="true"></div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-unicode">Copy</button>
+              <pre><code id="code-unicode">// one 👨‍👩‍👧 is one keystroke, not seven code points
+new Typewriter(el, { delay: 260, deleteDelay: 260, loop: true })
+  .type('família 👨‍👩‍👧 café 🇨🇾 ときどき')
+  .pause(1600)
+  .delete()
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Typing and correcting</h3>
+                <p>
+                  A partial <code>delete(n)</code> backs over the last few characters, so the writer can fix itself.
+                </p>
+              </div>
+              <span class="tag">delete(n)</span>
+            </div>
+            <div class="stage">
+              <div class="stage-text" id="typo-out" aria-hidden="true"></div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-typo">Copy</button>
+              <pre><code id="code-typo">new Typewriter(el, { delay: 55, deleteDelay: 45, jitter: 0.5, loop: true })
+  .type('Ship it on Fridya')
+  .pause(650)
+  .delete(3) // back over 'dya'
+  .pause(220)
+  .type('day')
+  .pause(2200)
+  .delete()
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card wide">
+            <div class="card-head">
+              <div>
+                <h3>A terminal session</h3>
+                <p>
+                  The target can be any <code>(text) =&gt; void</code> callback, so it renders into a
+                  <code>&lt;pre&gt;</code>, a canvas, framework state, or a real TTY.
+                </p>
+              </div>
+              <span class="tag">callback target</span>
+            </div>
+            <div class="stage">
+              <pre class="terminal" id="terminal-out" aria-hidden="true"></pre>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-terminal">Copy</button>
+              <pre><code id="code-terminal">const render = (text) => (out.textContent = text);
+
+new Typewriter(render, { delay: 26, jitter: 0.55, cursor: '█', loop: true })
+  .type('$ npm install typewriter-ts\n')
+  .pause(650)
+  .type('added 1 package in 412ms\n\n')
+  .pause(450)
+  .type('$ node greet.js\n')
+  .pause(550)
+  .type('hello from Node ✔')
+  .pause(2400)
+  .delete()
+  .start();
+
+// in a real CLI:
+new Typewriter((text) => process.stdout.write(`\r${text}`));</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>A streaming reply</h3>
+                <p>The look of a model answering, without wiring up a stream.</p>
+              </div>
+              <span class="tag">DOM node</span>
+            </div>
+            <div class="stage">
+              <div class="bubble" id="chat-out" aria-hidden="true"></div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-chat">Copy</button>
+              <pre><code id="code-chat">new Typewriter(bubble, { delay: 16, jitter: 0.8, cursor: '▊', loop: true })
+  .type('Yes — it renders into a DOM node, a form field, or any callback.')
+  .pause(3200)
+  .delete()
+  .pause(700)
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Into a form field</h3>
+                <p>Anything with a <code>value</code> works, so inputs and textareas need no special casing.</p>
+              </div>
+              <span class="tag">input value</span>
+            </div>
+            <div class="stage">
+              <div class="field">
+                <input
+                  id="field-out"
+                  type="text"
+                  readonly
+                  aria-label="Example search field"
+                  aria-hidden="true"
+                  tabindex="-1"
+                />
+                <button class="secondary" type="button" tabindex="-1" aria-hidden="true">Search</button>
+              </div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-field">Copy</button>
+              <pre><code id="code-field">new Typewriter(document.querySelector('input'), {
+  delay: 75,
+  jitter: 0.4,
+  cursor: false,
+  loop: true,
+})
+  .type(['noise cancelling headphones', 'mechanical keyboard'], { pause: 1600 })
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Loading states</h3>
+                <p>Rotating status lines read as progress, and cost nothing to run.</p>
+              </div>
+              <span class="tag">string array</span>
+            </div>
+            <div class="stage">
+              <div class="stage-text" id="loading-out" aria-hidden="true"></div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-loading">Copy</button>
+              <pre><code id="code-loading">new Typewriter(el, { delay: 34, deleteDelay: 12, jitter: 0.5, loop: true })
+  .type(
+    ['Connecting to the server…', 'Fetching your projects…', 'Almost there…'],
+    { pause: 1200 }
+  )
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Continue rendered text</h3>
+                <p>
+                  The greeting below is real HTML in this page. <code>initial</code> hands it to the writer instead of
+                  wiping it on the first frame.
+                </p>
+              </div>
+              <span class="tag">initial</span>
+            </div>
+            <div class="stage">
+              <div class="stage-text" id="continue-out" aria-hidden="true">Welcome back, Ada</div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-continue">Copy</button>
+              <pre><code id="code-continue">const extra = ' — 3 new messages.';
+
+new Typewriter(el, { initial: el.textContent, delay: 48, loop: true })
+  .pause(1000)
+  .type(extra)
+  .pause(2400)
+  .delete(extra.length) // leaves the server-rendered text intact
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Sequenced with await</h3>
+                <p>
+                  Each line waits for the one above it to finish. The fourth carries on from its own awaited writer,
+                  because <code>finished</code> resolves with it.
+                </p>
+              </div>
+              <span class="tag">finished</span>
+            </div>
+            <div class="stage">
+              <ul class="steps" aria-hidden="true">
+                <li data-step="1"><span id="sequence-one"></span></li>
+                <li data-step="2"><span id="sequence-two"></span></li>
+                <li data-step="3"><span id="sequence-three"></span></li>
+                <li data-step="4"><span id="sequence-four"></span></li>
+              </ul>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-sequence">Copy</button>
+              <pre><code id="code-sequence">await new Typewriter(one).type('Uploading…').start().finished;
+await new Typewriter(two).type('Processing…').start().finished;
+await new Typewriter(three).type('Done ✔').start().finished;
+
+// finished resolves with the writer, so the chain carries on
+const writer = await new Typewriter(el).type('One moment…').start().finished;
+writer.delete().type('Ready.').start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Any framework</h3>
+                <p>A callback target drives component state, so there is no DOM to reach into and nothing to adapt.</p>
+              </div>
+              <span class="tag">framework</span>
+            </div>
+            <div class="stage">
+              <div class="stage-text" aria-hidden="true">Works with <span id="framework-out"></span></div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-framework">Copy</button>
+              <pre><code id="code-framework">// React
+const [text, setText] = useState('');
+
+useEffect(() => {
+  const writer = new Typewriter(setText, { delay: 90, loop: true })
+    .type(['React', 'Vue', 'Svelte', 'Solid', 'plain JS'], { pause: 1100 })
+    .start();
+  return () => writer.destroy();
+}, []);
+
+return &lt;span&gt;{text}&lt;/span&gt;;</code></pre>
+            </div>
+          </article>
+
+          <article class="card wide">
+            <div class="card-head">
+              <div>
+                <h3>Code writing itself</h3>
+                <p>Newlines are ordinary characters, so a snippet can appear line by line on a landing page.</p>
+              </div>
+              <span class="tag">multiline</span>
+            </div>
+            <div class="stage">
+              <div class="fill" aria-hidden="true">
+                <span class="filename">app.ts</span>
+                <pre class="editor" id="editor-out"></pre>
+              </div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-editor">Copy</button>
+              <pre><code id="code-editor">new Typewriter(render, { delay: 24, jitter: 0.6, cursor: '▋', loop: true })
+  .type("import { Typewriter } from 'typewriter-ts';\n\n")
+  .pause(450)
+  .type('new Typewriter(headline)\n')
+  .type("  .type('Ready when you are.')\n")
+  .type('  .start();')
+  .pause(2600)
+  .delete()
+  .pause(600)
+  .start();</code></pre>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3>Under your control</h3>
+                <p>
+                  Press them. <code>stop()</code> pauses after the current character and <code>start()</code> picks up
+                  where it left off. Once the queue is finished, <code>reset()</code> runs it again.
+                </p>
+              </div>
+              <span class="tag">stop / start</span>
+            </div>
+            <div class="stage">
+              <div class="fill">
+                <div class="stage-text" id="controls-out"></div>
+                <div class="knobs">
+                  <button class="secondary" type="button" id="ctl-start">start()</button>
+                  <button class="secondary" type="button" id="ctl-stop">stop()</button>
+                  <button class="secondary" type="button" id="ctl-reset">reset()</button>
+                </div>
+              </div>
+            </div>
+            <div class="snippet">
+              <button class="copy secondary" type="button" data-copy="#code-controls">Copy</button>
+              <pre><code id="code-controls">const writer = new Typewriter(el, { delay: 45, jitter: 0.4 })
+  .type('Start, stop, resume, reset.')
+  .pause(400)
+  .type(' The queue remembers where it left off.');
+
+play.onclick = () => writer.start();
+pause.onclick = () => writer.stop();
+again.onclick = () => writer.reset();</code></pre>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          typewriter-ts is MIT licensed. Built by
+          <a href="https://github.com/andreasnicolaou">Andreas Nicolaou</a> ·
+          <a href="https://github.com/andreasnicolaou/typewriter-ts">Source and documentation</a>
+        </p>
+      </footer>
+    </main>
+
+    <script>
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const stillPreferred = window.matchMedia?.('(prefers-reduced-motion: reduce)') ?? { matches: false };
+      const status = $('#status');
+      let Writer;
+
+      /* Writes text and records how long the writer waited before each character,
+         which is the only honest way to show what jitter does. */
+      const withRhythm = (out, bars) => {
+        let previous = 0;
+        let last = '';
+        return (text) => {
+          out.textContent = text;
+          const grew = text.length > last.length;
+          last = text;
+          // Nothing typed yet: the writer has painted the bare cursor, which is not a keystroke.
+          if (text.length < 2) {
+            bars.replaceChildren();
+            previous = 0;
+            return;
+          }
+          // Only gaps between typed characters belong on the track. Pauses and
+          // deletions break the chain instead of drawing a misleading spike.
+          if (!grew) {
+            previous = 0;
+            return;
+          }
+          const now = performance.now();
+          if (previous) {
+            const bar = document.createElement('i');
+            bar.style.height = `${Math.max(3, Math.min(28, (now - previous) / 6))}px`;
+            bars.append(bar);
+            if (bars.childElementCount > 26) bars.firstElementChild.remove();
+          }
+          previous = now;
+        };
+      };
+
+      /* ------------------------------------------------------------------ *
+       * Live examples. Each declares where it lives, how to run, and what   *
+       * to show when the reader has asked for reduced motion.               *
+       * ------------------------------------------------------------------ */
+      const examples = [
+        {
+          at: '#hero-out',
+          still: () => ($('#hero-out').textContent = 'Small package. Big personality.'),
+          run: ({ writer }) => {
+            writer($('#hero-out'), { delay: 55, deleteDelay: 26, jitter: 0.35, cursor: '▋', loop: true })
+              .type(
+                [
+                  'Small package. Big personality.',
+                  'Type into anything that holds text.',
+                  'No dependencies, no framework.',
+                ],
+                { pause: 1600 }
+              )
+              .start();
+          },
+        },
+        {
+          at: '#cadence-flat',
+          still: () => {
+            $('#cadence-flat').textContent = 'the quick brown fox';
+            $('#cadence-human').textContent = 'the quick brown fox';
+          },
+          run: ({ writer }) => {
+            const line = 'the quick brown fox';
+            // A steady cursor keeps blink repaints out of the rhythm measurement.
+            const shared = { delay: 90, deleteDelay: 40, cursor: '▋', cursorBlink: false, loop: true };
+            const beat = (out, bars, options) =>
+              writer(withRhythm($(out), $(bars)), options)
+                .type(line)
+                .pause(1200)
+                .delete()
+                .pause(500)
+                .start();
+            beat('#cadence-flat', '#rhythm-flat', shared);
+            beat('#cadence-human', '#rhythm-human', { ...shared, jitter: 0.9 });
+          },
+        },
+        {
+          at: '#unicode-out',
+          still: () => ($('#unicode-out').textContent = 'família 👨‍👩‍👧 café 🇨🇾 ときどき'),
+          run: ({ writer }) => {
+            writer($('#unicode-out'), { delay: 260, deleteDelay: 260, cursor: '▋', loop: true })
+              .type('família 👨‍👩‍👧 café 🇨🇾 ときどき')
+              .pause(1600)
+              .delete()
+              .pause(500)
+              .start();
+          },
+        },
+        {
+          at: '#typo-out',
+          still: () => ($('#typo-out').textContent = 'Ship it on Friday'),
+          run: ({ writer }) => {
+            writer($('#typo-out'), { delay: 55, deleteDelay: 45, jitter: 0.5, cursor: '▋', loop: true })
+              .type('Ship it on Fridya')
+              .pause(650)
+              .delete(3)
+              .pause(220)
+              .type('day')
+              .pause(2200)
+              .delete()
+              .pause(500)
+              .start();
+          },
+        },
+        {
+          at: '#terminal-out',
+          still: () =>
+            ($('#terminal-out').textContent =
+              '$ npm install typewriter-ts\nadded 1 package in 412ms\n\n$ node greet.js\nhello from Node ✔'),
+          run: ({ writer }) => {
+            const out = $('#terminal-out');
+            writer((text) => (out.textContent = text), {
+              delay: 26,
+              deleteDelay: 6,
+              jitter: 0.55,
+              cursor: '█',
+              loop: true,
+            })
+              .type('$ npm install typewriter-ts\n')
+              .pause(650)
+              .type('added 1 package in 412ms\n\n')
+              .pause(450)
+              .type('$ node greet.js\n')
+              .pause(550)
+              .type('hello from Node ✔')
+              .pause(2400)
+              .delete()
+              .pause(500)
+              .start();
+          },
+        },
+        {
+          at: '#chat-out',
+          still: () =>
+            ($('#chat-out').textContent =
+              'Yes — typewriter-ts renders into a DOM node, a form field, or any callback you give it, so it works the same in React, Vue, Svelte, or a plain script.'),
+          run: ({ writer }) => {
+            writer($('#chat-out'), { delay: 16, jitter: 0.8, cursor: '▊', loop: true })
+              .type(
+                'Yes — typewriter-ts renders into a DOM node, a form field, or any callback you give it, so it works the same in React, Vue, Svelte, or a plain script.'
+              )
+              .pause(3200)
+              .delete()
+              .pause(700)
+              .start();
+          },
+        },
+        {
+          at: '#field-out',
+          still: () => ($('#field-out').value = 'noise cancelling headphones'),
+          run: ({ writer }) => {
+            writer($('#field-out'), { delay: 75, deleteDelay: 35, jitter: 0.4, cursor: false, loop: true })
+              .type(['noise cancelling headphones', 'mechanical keyboard', 'a very large monitor'], { pause: 1600 })
+              .start();
+          },
+        },
+        {
+          at: '#loading-out',
+          still: () => ($('#loading-out').textContent = 'Almost there…'),
+          run: ({ writer }) => {
+            writer($('#loading-out'), { delay: 34, deleteDelay: 12, jitter: 0.5, cursor: '▋', loop: true })
+              .type(['Connecting to the server…', 'Fetching your projects…', 'Almost there…'], { pause: 1200 })
+              .start();
+          },
+        },
+        {
+          at: '#continue-out',
+          still: () => ($('#continue-out').textContent = 'Welcome back, Ada — 3 new messages.'),
+          run: ({ writer }) => {
+            const element = $('#continue-out');
+            const extra = ' — 3 new messages.';
+            writer(element, { initial: element.textContent, delay: 48, deleteDelay: 24, cursor: '▋', loop: true })
+              .pause(1000)
+              .type(extra)
+              .pause(2400)
+              .delete(extra.length)
+              .pause(600)
+              .start();
+          },
+        },
+        {
+          at: '#sequence-one',
+          still: () => {
+            $('#sequence-one').textContent = 'Uploading…';
+            $('#sequence-two').textContent = 'Processing…';
+            $('#sequence-three').textContent = 'Done ✔';
+            $('#sequence-four').textContent = 'Ready.';
+          },
+          run: ({ writer, alive }) => {
+            const shared = { delay: 45, jitter: 0.4, cursor: '▋' };
+            const targets = ['#sequence-one', '#sequence-two', '#sequence-three', '#sequence-four'].map((id) => $(id));
+            const steps = [
+              writer(targets[0], shared).type('Uploading…'),
+              writer(targets[1], shared).type('Processing…'),
+              writer(targets[2], shared).type('Done ✔'),
+            ];
+            const closing = writer(targets[3], shared).type('One moment…');
+            let extended = false;
+            (async () => {
+              while (alive()) {
+                for (const step of steps) {
+                  if (!alive()) return;
+                  await step.reset().finished;
+                }
+                if (!alive()) return;
+                // finished resolves with the writer, so the chain carries on from it.
+                const same = await closing.reset().finished;
+                if (!alive()) return;
+                if (!extended) {
+                  extended = true; // queue the continuation once; reset() replays it after that
+                  same.delete().type('Ready.').start();
+                  await same.finished;
+                }
+                await sleep(2200);
+                if (!alive()) return;
+                for (const target of targets) target.textContent = '';
+                await sleep(400);
+              }
+            })();
+          },
+        },
+        {
+          at: '#framework-out',
+          still: () => ($('#framework-out').textContent = 'plain JS'),
+          run: ({ writer }) => {
+            const out = $('#framework-out');
+            writer((text) => (out.textContent = text), { delay: 90, deleteDelay: 40, cursor: '▋', loop: true })
+              .type(['React', 'Vue', 'Svelte', 'Solid', 'plain JS'], { pause: 1100 })
+              .start();
+          },
+        },
+        {
+          at: '#editor-out',
+          still: () =>
+            ($('#editor-out').textContent =
+              "import { Typewriter } from 'typewriter-ts';\n\nnew Typewriter(headline)\n  .type('Ready when you are.')\n  .start();"),
+          run: ({ writer }) => {
+            const out = $('#editor-out');
+            writer((text) => (out.textContent = text), {
+              delay: 24,
+              deleteDelay: 5,
+              jitter: 0.6,
+              cursor: '▋',
+              loop: true,
+            })
+              .type("import { Typewriter } from 'typewriter-ts';\n\n")
+              .pause(450)
+              .type('new Typewriter(headline)\n')
+              .type("  .type('Ready when you are.')\n")
+              .type('  .start();')
+              .pause(2600)
+              .delete()
+              .pause(600)
+              .start();
+          },
+        },
+        {
+          at: '#controls-out',
+          interactive: true,
+          still: () => ($('#controls-out').textContent = ''),
+          run: ({ writer, autoplay }) => {
+            const current = writer($('#controls-out'), { delay: 45, jitter: 0.4, cursor: '▋' })
+              .type('Start, stop, resume, reset.')
+              .pause(400)
+              .type(' The queue remembers where it left off.');
+            $('#ctl-start').onclick = () => current.start();
+            $('#ctl-stop').onclick = () => current.stop();
+            $('#ctl-reset').onclick = () => current.reset();
+            if (autoplay) current.start();
+          },
+        },
+      ];
+
+      /* Runs an example only while it is on screen, and tears it down after. */
+      const createRunner = (example) => {
+        let writers = [];
+        let token = 0;
+        const stop = () => {
+          token += 1;
+          for (const instance of writers) instance.destroy();
+          writers = [];
+        };
+        const start = (autoplay = true) => {
+          stop();
+          const mine = token;
+          example.run({
+            autoplay,
+            writer: (target, options) => {
+              const instance = new Writer(target, options);
+              writers.push(instance);
+              return instance;
+            },
+            alive: () => mine === token,
+          });
+        };
+        return { start, stop };
+      };
+
+      const startExamples = () => {
+        if (stillPreferred.matches) {
+          for (const example of examples) {
+            example.still();
+            // Interactive demos animate only when someone asks them to, which is still fine.
+            if (example.interactive) createRunner(example).start(false);
+          }
+          status.textContent = 'Reduced motion is on, so the examples are shown as their finished text.';
+          return;
+        }
+
+        const runners = new Map();
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              const runner = runners.get(entry.target);
+              if (!runner) continue;
+              if (entry.isIntersecting) runner.start();
+              else runner.stop();
+            }
+          },
+          { rootMargin: '96px' }
+        );
+
+        for (const example of examples) {
+          const anchor = $(example.at)?.closest('.card, .hero');
+          if (!anchor) continue;
+          runners.set(anchor, createRunner(example));
+          observer.observe(anchor);
+        }
+      };
+
+      /* ------------------------------- copy ------------------------------ */
+      for (const button of $$('[data-copy]')) {
+        button.addEventListener('click', async () => {
+          const source = $(button.dataset.copy);
+          if (!source) return;
+          const label = button.textContent;
+          try {
+            await navigator.clipboard.writeText(source.textContent);
+            button.textContent = 'Copied';
+          } catch {
+            const range = document.createRange();
+            range.selectNodeContents(source);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            button.textContent = 'Selected';
+          }
+          setTimeout(() => (button.textContent = label), 1400);
+        });
+      }
+
+      /* ------------------------------ loading ---------------------------- */
+      const sources = [
+        './dist/index.umd.min.js',
+        '../dist/index.umd.min.js',
+        'https://unpkg.com/typewriter-ts@latest/dist/index.umd.min.js',
+      ];
+
+      const load = () => {
+        const source = sources.shift();
+        if (!source) {
+          status.textContent = 'Could not load typewriter-ts. Run `npm run build` and reload.';
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = source;
+        script.onload = () => {
+          Writer = window.typewriter?.Typewriter;
+          if (!Writer) {
+            script.remove();
+            load();
+            return;
+          }
+          status.textContent = '';
+          startExamples();
+        };
+        script.onerror = () => {
+          script.remove();
+          load();
+        };
+        document.head.append(script);
+      };
+      load();
+    </script>
+  </body>
+</html>

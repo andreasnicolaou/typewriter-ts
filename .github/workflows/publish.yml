@@ -1,0 +1,75 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Check types
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm run test:coverage
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Check bundle size
+        run: npm run test:bundle
+
+      - name: Check if version already published
+        id: version-check
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version 2>/dev/null; then
+            echo "Version $PACKAGE_VERSION of $PACKAGE_NAME is already published on npm"
+            echo "already-published=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $PACKAGE_VERSION of $PACKAGE_NAME is not published yet"
+            echo "already-published=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Debug OIDC prerequisites
+        run: |
+          echo "npm version: $(npm -v)"
+          echo "npm path: $(which npm)"
+          echo "node version: $(node -v)"
+          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
+            echo "OIDC token endpoint: AVAILABLE"
+          else
+            echo "OIDC token endpoint: MISSING"
+          fi
+
+      - name: Publish to npm
+        if: steps.version-check.outputs.already-published == 'false'
+        run: npm publish --access public --provenance

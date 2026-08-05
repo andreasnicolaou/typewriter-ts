@@ -1,0 +1,112 @@
+{
+  "name": "typewriter-ts",
+  "version": "1.0.0",
+  "description": "A tiny, dependency-free TypeScript typewriter for browsers and Node.",
+  "license": "MIT",
+  "author": {
+    "name": "Andreas Nicolaou",
+    "email": "anicolaou66@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andreasnicolaou/typewriter-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andreasnicolaou/typewriter-ts/issues"
+  },
+  "homepage": "https://andreasnicolaou.github.io/typewriter-ts/",
+  "keywords": [
+    "typewriter",
+    "typewriter-ts",
+    "typing",
+    "animation",
+    "typescript",
+    "javascript",
+    "browser",
+    "node",
+    "zero-dependency",
+    "tiny",
+    "andreasnicolaou"
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/index.umd.min.js",
+  "jsdelivr": "dist/index.umd.min.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.build.json && rollup -c && rimraf dist/esm dist/types",
+    "build:check": "npm run build && npm run test:bundle",
+    "clean": "rimraf dist",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:bundle": "bundlewatch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build:check",
+    "prepublishOnly": "npm run build:check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
+    "bundlewatch": "^0.4.2",
+    "eslint": "^10.8.0",
+    "globals": "^17.9.0",
+    "jsdom": "^30.0.1",
+    "prettier": "^3.9.6",
+    "rimraf": "^6.1.3",
+    "rollup": "^4.62.4",
+    "rollup-plugin-dts": "^6.5.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0",
+    "vitest": "^4.1.10"
+  },
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "dist/index.js",
+        "maxSize": "1.6kB"
+      },
+      {
+        "path": "dist/index.cjs",
+        "maxSize": "1.6kB"
+      },
+      {
+        "path": "dist/index.umd.js",
+        "maxSize": "4.5kB"
+      },
+      {
+        "path": "dist/index.umd.min.js",
+        "maxSize": "1.7kB"
+      }
+    ]
+  }
+}
