@@ -29,10 +29,10 @@
       </ul>
 
       <div class="install">
-        <code id="install-cmd">npm install typewriter-ts</code>
+        <code id="install-cmd">npm install @andreasnicolaou/typewriter-ts</code>
         <button class="secondary" type="button" data-copy="#install-cmd">Copy</button>
         <a href="https://github.com/andreasnicolaou/typewriter-ts">GitHub</a>
-        <a href="https://www.npmjs.com/package/typewriter-ts">npm</a>
+        <a href="https://www.npmjs.com/package/@andreasnicolaou/typewriter-ts">npm</a>
       </div>
 
       <div class="hero">
@@ -155,7 +155,7 @@ new Typewriter(el, { delay: 260, deleteDelay: 260, loop: true })
               <pre><code id="code-terminal">const render = (text) => (out.textContent = text);
 
 new Typewriter(render, { delay: 26, jitter: 0.55, cursor: '█', loop: true })
-  .type('$ npm install typewriter-ts\n')
+  .type('$ npm install @andreasnicolaou/typewriter-ts\n')
   .pause(650)
   .type('added 1 package in 412ms\n\n')
   .pause(450)
@@ -351,7 +351,7 @@ return &lt;span&gt;{text}&lt;/span&gt;;</code></pre>
             <div class="snippet">
               <button class="copy secondary" type="button" data-copy="#code-editor">Copy</button>
               <pre><code id="code-editor">new Typewriter(render, { delay: 24, jitter: 0.6, cursor: '▋', loop: true })
-  .type("import { Typewriter } from 'typewriter-ts';\n\n")
+  .type("import { Typewriter } from '@andreasnicolaou/typewriter-ts';\n\n")
   .pause(450)
   .type('new Typewriter(headline)\n')
   .type("  .type('Ready when you are.')\n")
@@ -522,7 +522,7 @@ again.onclick = () => writer.reset();</code></pre>
           at: '#terminal-out',
           still: () =>
             ($('#terminal-out').textContent =
-              '$ npm install typewriter-ts\nadded 1 package in 412ms\n\n$ node greet.js\nhello from Node ✔'),
+              '$ npm install @andreasnicolaou/typewriter-ts\nadded 1 package in 412ms\n\n$ node greet.js\nhello from Node ✔'),
           run: ({ writer }) => {
             const out = $('#terminal-out');
             writer((text) => (out.textContent = text), {
@@ -532,7 +532,7 @@ again.onclick = () => writer.reset();</code></pre>
               cursor: '█',
               loop: true,
             })
-              .type('$ npm install typewriter-ts\n')
+              .type('$ npm install @andreasnicolaou/typewriter-ts\n')
               .pause(650)
               .type('added 1 package in 412ms\n\n')
               .pause(450)
@@ -649,7 +649,7 @@ again.onclick = () => writer.reset();</code></pre>
           at: '#editor-out',
           still: () =>
             ($('#editor-out').textContent =
-              "import { Typewriter } from 'typewriter-ts';\n\nnew Typewriter(headline)\n  .type('Ready when you are.')\n  .start();"),
+              "import { Typewriter } from '@andreasnicolaou/typewriter-ts';\n\nnew Typewriter(headline)\n  .type('Ready when you are.')\n  .start();"),
           run: ({ writer }) => {
             const out = $('#editor-out');
             writer((text) => (out.textContent = text), {
@@ -659,7 +659,7 @@ again.onclick = () => writer.reset();</code></pre>
               cursor: '▋',
               loop: true,
             })
-              .type("import { Typewriter } from 'typewriter-ts';\n\n")
+              .type("import { Typewriter } from '@andreasnicolaou/typewriter-ts';\n\n")
               .pause(450)
               .type('new Typewriter(headline)\n')
               .type("  .type('Ready when you are.')\n")
@@ -769,7 +769,7 @@ again.onclick = () => writer.reset();</code></pre>
       const sources = [
         './dist/index.umd.min.js',
         '../dist/index.umd.min.js',
-        'https://unpkg.com/typewriter-ts@latest/dist/index.umd.min.js',
+        'https://unpkg.com/@andreasnicolaou/typewriter-ts@latest/dist/index.umd.min.js',
       ];
 
       const load = () => {

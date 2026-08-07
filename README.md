@@ -3,8 +3,8 @@
 <p align="center">Tiny, dependency-free typewriter effects for JavaScript and TypeScript.</p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/typewriter-ts"><img src="https://img.shields.io/npm/v/typewriter-ts.svg?style=flat-square&colorB=51C838" alt="NPM version"></a>
-  <a href="https://bundlephobia.com/package/typewriter-ts"><img src="https://img.shields.io/bundlephobia/minzip/typewriter-ts?style=flat-square&color=45cc11" alt="Gzip size"></a>
+  <a href="https://www.npmjs.com/package/@andreasnicolaou/typewriter-ts"><img src="https://img.shields.io/npm/v/%40andreasnicolaou%2Ftypewriter-ts.svg?style=flat-square&colorB=51C838" alt="NPM version"></a>
+  <a href="https://bundlephobia.com/package/@andreasnicolaou/typewriter-ts"><img src="https://img.shields.io/bundlephobia/minzip/%40andreasnicolaou%2Ftypewriter-ts?style=flat-square&color=45cc11" alt="Gzip size"></a>
 </p>
 
 ![TypeScript](https://img.shields.io/badge/TS-TypeScript-3178c6?logo=typescript&logoColor=white)
@@ -22,7 +22,7 @@
 > typewriter-ts animates strings one character at a time. It is dependency-free, Unicode-safe, framework-agnostic, typed, and ships ESM, CommonJS, UMD, minified UMD, and TypeScript declarations.
 
 ```ts
-import { Typewriter } from 'typewriter-ts';
+import { Typewriter } from '@andreasnicolaou/typewriter-ts';
 
 new Typewriter(document.querySelector('.headline')!, {
   delay: 45,
@@ -45,7 +45,7 @@ new Typewriter(document.querySelector('.headline')!, {
 The default export is the same class, if you prefer it:
 
 ```ts
-import Typewriter from 'typewriter-ts';
+import Typewriter from '@andreasnicolaou/typewriter-ts';
 ```
 
 ## Getting Started
@@ -53,7 +53,7 @@ import Typewriter from 'typewriter-ts';
 ### Installation
 
 ```bash
-npm install typewriter-ts
+npm install @andreasnicolaou/typewriter-ts
 ```
 
 ### Live demo
@@ -69,7 +69,7 @@ You can also serve the project with any static file server. The page uses the lo
 ```html
 <p id="headline"></p>
 
-<script src="https://unpkg.com/typewriter-ts@latest/dist/index.umd.min.js"></script>
+<script src="https://unpkg.com/@andreasnicolaou/typewriter-ts@latest/dist/index.umd.min.js"></script>
 <script>
   const { Typewriter: Writer } = window.typewriter;
 
