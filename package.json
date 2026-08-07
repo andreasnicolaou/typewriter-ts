@@ -1,5 +1,5 @@
 {
-  "name": "typewriter-ts",
+  "name": "@andreasnicolaou/typewriter-ts",
   "version": "1.0.0",
   "description": "A tiny, dependency-free TypeScript typewriter for browsers and Node.",
   "license": "MIT",
@@ -53,6 +53,9 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=18"
   },
