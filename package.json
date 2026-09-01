@@ -89,7 +89,7 @@
     "rollup": "^4.62.4",
     "rollup-plugin-dts": "^6.5.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.66.0",
+    "typescript-eslint": "^8.68.0",
     "vitest": "^4.1.10"
   },
   "bundlewatch": {
