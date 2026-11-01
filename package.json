@@ -78,7 +78,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-terser": "^1.0.0",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.6.6",
     "@vitest/coverage-v8": "^4.1.10",
     "bundlewatch": "^0.4.2",
     "eslint": "^10.8.0",
